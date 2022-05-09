@@ -1,0 +1,1 @@
+export const PEDIDO_RECETAS = "PEDIDO_RECETAS"
