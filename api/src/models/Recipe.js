@@ -27,14 +27,15 @@ module.exports = (sequelize) => {
       allowNull: true
     },
     instructions: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: true
     },
     summary: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false
     }
-  });
+
+  }, { timestamps: false });
 };
 
 

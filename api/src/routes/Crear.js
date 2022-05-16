@@ -1,17 +1,18 @@
 const { Router } = require('express');
-const { Recipe, Diet } = require("../db")
+const { Recipe } = require("../db")
 
 const router = Router();
 
 router.post("/", async (req, res, next) => {
     try {
-        const { title,
-            dietID,
+        let { title,
+            dietsID,
             summary,
             spoonacularScore,
             healthScore,
             image,
             instructions } = req.body;
+
         const newReceta = await Recipe.create({
             title,
             summary,
@@ -20,8 +21,14 @@ router.post("/", async (req, res, next) => {
             image,
             instructions
         })
-        if (dietID.length == 0) dietID.push(1)
-        dietID.map((e) => newReceta.addDiet(e))
+        if (dietsID !== null && dietsID !== []) {
+            for (let i = 0; i < dietsID.length; i++) {
+                await newReceta.addDiet(dietsID[i])
+            }
+        }
+
+        // dietID.map((e) => newReceta.addDiet(e))
+        //console.log(dietID);
 
         return res.send(newReceta)
     } catch (error) {

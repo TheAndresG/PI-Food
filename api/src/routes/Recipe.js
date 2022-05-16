@@ -10,22 +10,23 @@ router.get("", (req, res, next) => {
     let { name } = req.query
     let pedidoAPI
     let pedidoBD
+
     try {
+        pedidoAPI = axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=6`)
         if (name) {
-            pedidoAPI = axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=2&titleMatch=${name}`)
-            pedidoBD = Recipe.findAll({ where: { title: { [Op.iLike]: "%" + name + "%" } }, includes: Diet }).then((recipe) => { return recipe })
+            pedidoBD = Recipe.findAll({ where: { title: { [Op.iLike]: "%" + name + "%" } }, includes: { model: Diet, attributes: ["name"], through: { attributes: [] } } }).then((recipe) => { return recipe })
         }
         else {
-            pedidoAPI = axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=2`)
-            pedidoBD = Recipe.findAll().then((recipe) => { return recipe })
+            pedidoBD = Recipe.findAll({ include: { model: Diet, attributes: ["name"], through: { attributes: [] } } }).then((recipe) => { return recipe })
         }
+
         Promise.all([pedidoAPI, pedidoBD]).then((respuesta) => {
             const [infoAPI, infoBD] = respuesta
             let filtro = infoAPI.data.results.map((e) => {
                 return {
                     id: e.id,
                     title: e.title,
-                    dieta: e.diets,
+                    diets: e.diets,
                     image: e.image,
                     summary: e.summary,
                     spoonacularScore: e.spoonacularScore,
@@ -33,6 +34,11 @@ router.get("", (req, res, next) => {
                     instructions: e.instructions
                 }
             })
+            //Cambie el filtro desde el pedido API a un filtro casero. No olvidarme que de leer el Readme mas seguido para ahorrarme estos cambios a ultimo momento
+            if (name) {
+                filtro = filtro.filter((e) => e.title.toLowerCase().includes(name.toLowerCase()))
+            }
+            console.log(infoBD);
             let fullResetas = [...filtro, ...infoBD]
             return res.send(fullResetas.sort())
         })
@@ -45,7 +51,15 @@ router.get("/:id", async (req, res, next) => {
     let retorno
     try {
         if (idparam.length > 9) {
-            retorno = await Recipe.findOne({ where: { id: idparam }, includes: Diet }).then((recipe) => { return recipe })
+            retorno = await Recipe.findOne({
+                where: { id: idparam }, include: {
+                    model: Diet,
+                    attributes: ["name"],
+                    through: {
+                        attributes: []
+                    }
+                }
+            }).then((recipe) => { return recipe })
         }
         else {
             let pedidoAPI = await axios.get(`https://api.spoonacular.com/recipes/${idparam}/information?apiKey=${API_KEY}`)
@@ -53,7 +67,7 @@ router.get("/:id", async (req, res, next) => {
                 id: pedidoAPI.data.id,
                 title: pedidoAPI.data.title,
                 image: pedidoAPI.data.image,
-                dieta: pedidoAPI.data.diets,
+                diets: pedidoAPI.data.diets,
                 summary: pedidoAPI.data.summary,
                 spoonacularScore: pedidoAPI.data.spoonacularScore,
                 healthScore: pedidoAPI.data.healthScore,
@@ -66,20 +80,17 @@ router.get("/:id", async (req, res, next) => {
 
 })
 router.post("/", (req, res) => {
-    return res.send("Receta!")
+    return res.send("Estas haciendo un POST en recetas!")
 })
 
 router.put("/", (req, res) => {
-    return res.send("Receta!")
+    return res.send("Estas haciendo un PUT en recetas!")
 })
 
 router.delete("/", (req, res) => {
-    return res.send("Receta!")
+    return res.send("Estas haciendo un DELETE en recetas!")
 })
-router.get("/:id", async (req, res, next) => {
-    let idparam = req.params.id
-    res.send("ESTAS HACIENDO POST CON " + idparam)
-})
+
 
 
 module.exports = router;

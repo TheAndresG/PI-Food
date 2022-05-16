@@ -1,9 +1,16 @@
 import './App.css';
 
+//import Prueba from './components/Prueba.js';
+import Home from './routes/home';
+
+
+
+
 function App() {
   return (
+
     <div className="App">
-      <h1>Henry Food</h1>
+      <Home />
     </div>
   );
 }

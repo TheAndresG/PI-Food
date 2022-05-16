@@ -15,15 +15,15 @@ router.get("/", (req, res) => {
 })
 
 router.post("/", (req, res) => {
-    res.send("Dieta!")
+    res.send("POST Dieta!")
 })
 
 router.put("/", (req, res) => {
-    res.send("Dieta!")
+    res.send("PUT Dieta!")
 })
 
 router.delete("/", (req, res) => {
-    res.send("Dieta!")
+    res.send("DELETE Dieta!")
 })
 
 module.exports = router;

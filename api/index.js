@@ -25,7 +25,7 @@ const { conn, Diet } = require('./src/db.js');
 conn.sync({ force: true }).then(() => {
   server.listen(3001, () => {
     console.log('%s listening at 3001'); // eslint-disable-line no-console
-    const allDietas = ["Omnivore", "Gluten Free", "Ketonic", "Vegetarian", "Lacto-Vegetarian", "Ovo-Vegetarian", "Vegan", "Pescetarian", "Paleo", "Primal", "Low FODMAP", "Whole30"]
+    const allDietas = ["Gluten Free", "Ketonic", "Vegetarian", "Lacto-Vegetarian", "Ovo-Vegetarian", "Vegan", "Pescetarian", "Paleo", "Primal", "Low FODMAP", "Whole30"]
     allDietas.map((e) => Diet.create({ name: e }))
   });
 });
