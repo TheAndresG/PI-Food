@@ -3,7 +3,7 @@ import { crearMensajeState, crearReceta, pedirDietas } from '../store/acctions';
 import { useDispatch, useSelector } from 'react-redux'
 import Error from './Error';
 import Modal from './Modal';
-
+import "../css/formulario.css"
 
 const Formulario = () => {
     const dietas = useSelector((state) => state.dietas)
@@ -18,20 +18,26 @@ const Formulario = () => {
         } else if (input.title.length > 40) {
             errors.title = 'El titulo no puede ser mayor a 40 caracteres!';
         }
-        else if (/^ [a - z A - Z ñÑáéíóúÁÉÍÓÚ] + $/.test(input.title)) {
-            errors.title = 'El titulo solo admite letras!';
+        else if (!/^[a-zA-Z0-9 ]*$/.test(input.title)) {
+            errors.title = 'No se admiten caracteres especiales!';
         }
 
         if (input.healthScore <= 0 || input.healthScore > 100) {
             errors.healthScore = 'El healthScore debe ser entre 1 y 100';
         }
         if (input.spoonacularScore <= 0 || input.healthScore > 100) {
-            errors.healthScore = 'El spoonacularScore debe ser entre 1 y 100';
+            errors.spoonacularScore = 'El spoonacularScore debe ser entre 1 y 100';
         }
         if (!input.summary) {
             errors.summary = 'El resumen es obligatorio!';
         } else if (input.summary.length > 200) {
             errors.summary = 'El resumen no puede ser mayor a 200 caracteres!';
+        }
+        if (!/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/.test(input.image)) {
+            errors.image = "La imagen debe ser un link"
+        }
+        else if (!/.*(png|jpg|jpeg|gif)$/.test(input.image)) {
+            errors.image = "El formato debe ser PNG,JPG,JPEG o GIF"
         }
 
         if (input.instructions.length > 200) {
@@ -40,9 +46,6 @@ const Formulario = () => {
         return errors;
     };
 
-    // if (!/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/.test(input.image)) {
-    //     errors.image = "La imagen debe ser un link"
-    // }
 
 
     const [input, setInput] = useState({
@@ -52,7 +55,9 @@ const Formulario = () => {
         healthScore: 1,
         spoonacularScore: 1,
         instructions: "",
-        dietsID: []
+        dietsID: [],
+        dishTypes: []
+
     });
     const [errors, setError] = useState({
 
@@ -66,8 +71,10 @@ const Formulario = () => {
     });
 
     useEffect(() => {
-        dispatch(pedirDietas())
-    }, [dispatch])
+        if (dietas.length === 0) {
+            dispatch(pedirDietas())
+        }
+    }, [])
 
 
     const handleInputChange = function (e) {
@@ -81,7 +88,6 @@ const Formulario = () => {
             [e.target.name]: e.target.value
         })
         )
-
     }
 
 
@@ -89,16 +95,14 @@ const Formulario = () => {
 
         if (e.target.checked === true) {
             setInput({
-                ...input, dietsID: [...input.dietsID, e.target.value]
+                ...input, [e.target.name]: [...input[e.target.name], e.target.value]
 
             });
-
-
         }
         else {
             setInput({
-                ...input, dietsID:
-                    input.dietsID.filter((b) => b !== e.target.value)
+                ...input, [e.target.name]:
+                    input[e.target.name].filter((b) => b !== e.target.value)
             });
         }
 
@@ -115,87 +119,102 @@ const Formulario = () => {
             healthScore: 1,
             spoonacularScore: 1,
             instructions: "",
-            dietsID: []
+            dietsID: [],
+            dishTypes: []
+
         })
         setError({
             ...errors,
             title: "Campo obligatorio!",
             summary: "Campo obligatorio!"
         })
+
     }
 
     function noSubmit(e) {
         e.preventDefault()
         dispatch(crearMensajeState("Hay errores en el Formulario! Receta NO creada!"))
-        console.log(mensaje);
 
     }
+
+    let dishTypesLista = [
+        "Lunch",
+        "Main Course",
+        "Main Dish",
+        "Dinner"
+    ]
     return (
-        <Fragment>
+        <div className='fondo' >
             {mensaje && mensaje !== "" ? <Modal /> : null}
-            <form onSubmit={Object.keys(errors).length === 0 ? handleSubmit : noSubmit}>
-                <div>
+            <form className='formulario1' onSubmit={Object.keys(errors).length === 0 ? handleSubmit : noSubmit}>
+                <div className='cont'>
                     <label >Title: </label>
                     <input type="text" name="title" value={input.title} onChange={handleInputChange} />
 
-                    {errors.title ? <Error mensaje={errors.title} /> : null}
+                    {errors.title ? <Error mensaje={errors.title} /> : <p> </p>}
                 </div>
-
-                <div>
-                    <label >Image: </label>
-                    <input type="text" name='image' value={input.image} onChange={handleInputChange} />
-                    {errors.image ? <Error mensaje={errors.image} /> : null}
-
-                </div>
-                <div>
+                <div className='cont'>
                     <label >Summary: </label>
                     <textarea name='summary' value={input.summary} onChange={handleInputChange}>
 
                     </textarea>
-                    <div>{errors.summary ? <Error mensaje={errors.summary} /> : null}
+                    <div>{errors.summary ? <Error mensaje={errors.summary} /> : <p> </p>}
                     </div>
-                </div>
-
-                <div>
-                    <label >healthScore: </label>
-                    <input type="range" step="1" min="1" max="100" name="healthScore" value={input.healthScore} onChange={handleInputChange} />
-                    <div>{input.healthScore}</div>
 
                 </div>
-                {errors.healthScore ? <Error mensaje={errors.healthScore} /> : null}
-
-                <div>
-                    <label >spoonacularScore: </label>
-                    <input type="range" step="1" min="1" max="100" name="spoonacularScore" value={input.spoonacularScore} onChange={handleInputChange} />
-                    <div>{input.spoonacularScore}</div>
+                <div className='cont'>
+                    <label >Image: </label>
+                    <input type="text" name='image' value={input.image} onChange={handleInputChange} />
+                    {errors.image ? <Error mensaje={errors.image} /> : <p></p>}
 
                 </div>
-                {errors.spoonacularScore ? <Error mensaje={errors.spoonacularScore} /> : null}
-                <div>
+
+                <div className='cont'>
                     <label >Instructions: </label>
                     <textarea name='instructions' value={input.instructions} onChange={handleInputChange}>
 
                     </textarea>
-                    <div>{errors.instructions ? <Error mensaje={errors.instructions} /> : null}
+                    <div>{errors.instructions ? <Error mensaje={errors.instructions} /> : <div></div>}
                     </div>
                 </div>
+                <div className='cont' id='cajas'>
+                    Diets:
+                    <div className='dietas'>
 
-                <div>
+                        {dietas ? dietas.map(dieta => (<p key={dieta.name} name={dieta.name}>
+                            <label>{dieta.name}</label>
+                            <input type="checkbox" name="dietsID" value={dieta.id} onChange={handleCheckChange} />
+                        </p>)) : <div>Dietas</div>}
+                    </div>
+                </div>
+                <div className='cont'>
+                    <label >healthScore: </label>
+                    <input type="range" step="1" min="1" max="100" name="healthScore" value={input.healthScore} onChange={handleInputChange} />
+                    <div>{input.healthScore}</div>
 
-                    <div> ACA VAN A ESTAR LAS DIETAS    </div>
+
+                    {errors.healthScore ? <Error mensaje={errors.healthScore} /> : <div></div>}
 
 
+                    <label >spoonacularScore: </label>
+                    <input type="range" step="1" min="1" max="100" name="spoonacularScore" value={input.spoonacularScore} onChange={handleInputChange} />
+                    <div>{input.spoonacularScore}</div>
 
-                    {dietas ? dietas.map(dieta => (<p key={dieta.name} name={dieta.name}>
-                        <label>{dieta.name}</label>
-                        <input type="checkbox" name={dieta.name} value={dieta.id} onChange={handleCheckChange} />
-                    </p>)) : <div>Dietas</div>}
+                    {errors.spoonacularScore ? <Error mensaje={errors.spoonacularScore} /> : <div></div>}
+
+                    {/* dishTypes:
+                    <div className='cenas'>
+                        {dishTypesLista.map(e => (<p key={e} name={e}>
+                            <input type="checkbox" name="dishTypes" value={e.toLowerCase()} onChange={handleCheckChange} />
+                            <label>{e}</label>
+                        </p>))}
+                    </div> */}
 
                 </div>
+                <button className='botonForm' type="submit">Create Product</button>
 
-                <button type="submit">Create Product</button>
             </form>
-        </Fragment>
+        </div>
     );
 };
 

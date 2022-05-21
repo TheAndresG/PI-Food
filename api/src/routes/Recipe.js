@@ -1,6 +1,6 @@
 const axios = require('axios');
 const { Router } = require('express');
-const { Op } = require('sequelize');
+const { Op, useInflection } = require('sequelize');
 const { Recipe, API_KEY, Diet } = require("../db")
 
 const router = Router();
@@ -12,7 +12,7 @@ router.get("", (req, res, next) => {
     let pedidoBD
 
     try {
-        pedidoAPI = axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=6`)
+        pedidoAPI = axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=100`)
         if (name) {
             pedidoBD = Recipe.findAll({ where: { title: { [Op.iLike]: "%" + name + "%" } }, includes: { model: Diet, attributes: ["name"], through: { attributes: [] } } }).then((recipe) => { return recipe })
         }
@@ -31,15 +31,32 @@ router.get("", (req, res, next) => {
                     summary: e.summary,
                     spoonacularScore: e.spoonacularScore,
                     healthScore: e.healthScore,
+                    dishTypes: e.dishTypes,
                     instructions: e.instructions
                 }
             })
             //Cambie el filtro desde el pedido API a un filtro casero. No olvidarme que de leer el Readme mas seguido para ahorrarme estos cambios a ultimo momento
+            let filtroDB = infoBD.map((e) => {
+                return {
+                    id: e.id,
+                    title: e.title,
+                    diets: e.diets !== undefined ? e.diets.map(e => e.name) : [],
+                    image: e.image,
+                    summary: e.summary,
+                    spoonacularScore: e.spoonacularScore,
+                    healthScore: e.healthScore,
+                    dishTypes: e.dishTypes,
+                    instructions: e.instructions
+                }
+            })
+
+
             if (name) {
                 filtro = filtro.filter((e) => e.title.toLowerCase().includes(name.toLowerCase()))
             }
-            console.log(infoBD);
-            let fullResetas = [...filtro, ...infoBD]
+
+            let fullResetas = [...filtro, ...filtroDB]
+
             return res.send(fullResetas.sort())
         })
     } catch (error) {
@@ -59,10 +76,24 @@ router.get("/:id", async (req, res, next) => {
                         attributes: []
                     }
                 }
-            }).then((recipe) => { return recipe })
+            }).then((recipe) => {
+                let envio = {
+                    id: recipe.id,
+                    title: recipe.title,
+                    diets: recipe.diets.map(e => e.name),
+                    image: recipe.image,
+                    summary: recipe.summary,
+                    spoonacularScore: recipe.spoonacularScore,
+                    healthScore: recipe.healthScore,
+                    dishTypes: recipe.dishTypes,
+                    instructions: recipe.instructions
+                }
+
+                return envio
+            })
         }
         else {
-            let pedidoAPI = await axios.get(`https://api.spoonacular.com/recipes/${idparam}/information?apiKey=${API_KEY}`)
+            let pedidoAPI = await axios.get(`https://api.spoonacular.com/recipes/${idparam}/information?apiKey=${API_KEY}&addRecipeInformation=true`)
             retorno = {
                 id: pedidoAPI.data.id,
                 title: pedidoAPI.data.title,
@@ -71,6 +102,7 @@ router.get("/:id", async (req, res, next) => {
                 summary: pedidoAPI.data.summary,
                 spoonacularScore: pedidoAPI.data.spoonacularScore,
                 healthScore: pedidoAPI.data.healthScore,
+                dishTypes: pedidoAPI.data.dishTypes,
                 instructions: pedidoAPI.data.instructions
             }
         }

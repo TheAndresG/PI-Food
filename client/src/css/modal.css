@@ -1,0 +1,23 @@
+.modal-contenido {
+    background-color: rgb(227, 233, 233);
+    width: 700px;
+    height: 218px;
+    display: flex;
+    padding: 10px 20px;
+    margin: 15% auto;
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 15px;
+}
+
+.modal {
+    background-color: rgba(0, 0, 0, .8);
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 300;
+}

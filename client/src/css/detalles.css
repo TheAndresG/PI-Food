@@ -1,0 +1,27 @@
+.contenedorDetalles {
+    display: flex;
+    background: linear-gradient(to bottom, #59abf3, #faeeeee5);
+
+    flex-direction: column;
+
+    padding: 30px;
+    padding-top: 0px;
+    align-items: center;
+}
+
+.image {
+    border: solid black 2px;
+    border-radius: 12px;
+}
+
+.bordes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.contenedores {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}

@@ -8,6 +8,7 @@ export const CREAR_MENSAJE_STATE = "CREAR_MENSAJE_STATE"
 export function pedirRecetas(name) {
     return function (dispatch) {
         if (name && name !== "") {
+            console.log("entre");
             axios.get(`http://localhost:3001/recipes?name=${name}`)
                 .then((recetas) => {
                     dispatch({
@@ -16,6 +17,7 @@ export function pedirRecetas(name) {
                     })
                 })
                 .catch((error) => { console.log(error); })
+            return
         }
 
         axios.get("http://localhost:3001/recipes/")
@@ -44,7 +46,6 @@ export function pedirUnaReceta(id) {
 }
 
 export function crearReceta(input) {
-    console.log(input);
     return function (dispatch) {
         axios.post(`http://localhost:3001/recipe`, input)
             .then(() => {

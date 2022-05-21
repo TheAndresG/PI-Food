@@ -1,0 +1,36 @@
+.pagination {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: center;
+}
+
+.pagination div {
+
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+.lista {
+    display: inline-block;
+    background: linear-gradient(to bottom, #f8d1d1, #f392c7);
+    border: 3px solid #e20053;
+    border-radius: 35px;
+    margin: 5px;
+    list-style: none;
+    transition: .5s;
+}
+
+.lista:hover {
+    box-shadow: 1px 3px 10px 1px rgba(0, 0, 0, 0.356);
+    cursor: pointer;
+
+}
+
+.lista:active {
+    box-shadow: 1px 3px 10px 1px rgba(0, 0, 0, 0.795);
+}

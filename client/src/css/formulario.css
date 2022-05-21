@@ -1,0 +1,196 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;1,300&display=swap');
+
+body {
+    background-image: url(https://c8.alamy.com/compes/ctem5f/libro-de-recetas-en-blanco-en-la-mesa-de-la-cocina-ctem5f.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: 'Roboto', sans-serif;
+
+}
+
+.fondo {
+    background: linear-gradient(to bottom, #59abf3, #faeeeee5);
+    height: 60rem;
+}
+
+.Error {
+    background-color: rgba(255, 0, 0, 0.596);
+    border-radius: 15px;
+    display: block;
+    margin: 0;
+    margin-top: 0.6rem;
+    padding: 5px;
+    font-size: 1.9rem;
+}
+
+.formulario1 {
+    display: flex;
+    padding-top: 1px;
+    flex-direction: column;
+    width: 60%;
+    margin-left: 20%;
+    text-shadow: 1px 6px 5px rgb(49, 2, 47);
+
+    border: solid 1px;
+}
+
+.formulario1 input[type=text] {
+    border: none;
+    background-color: rgba(255, 255, 255, 0.226);
+    margin-top: 5px;
+    height: 42.5px;
+    line-height: 30px;
+    outline: 0;
+    border: 0;
+    border-bottom: 2px solid #0407d9;
+    ;
+    font-size: 1em;
+    border-radius: 20px;
+    padding: 0 10px;
+    width: 60%;
+}
+
+
+.formulario1 input[type=range] {
+
+    -webkit-appearance: none;
+    width: 60%;
+    height: 15px;
+    border-radius: 5px;
+    background: rgba(34, 71, 83, 0.171);
+    outline: none;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.formulario1 input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: linear-gradient(to bottom, #e90bc4, #6d0870e5);
+    cursor: pointer;
+}
+
+.formulario1 input::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #021b12;
+    cursor: pointer;
+}
+
+.formulario1 input[type=text]:focus {
+
+    background-color: rgba(173, 216, 230, 0.397);
+
+}
+
+.formulario1 textarea {
+    border: none;
+    background-color: rgba(255, 255, 255, 0.226);
+    margin-top: 5px;
+
+    line-height: 30px;
+    outline: 0;
+    border: 0;
+    border-bottom: 2px solid #0407d9;
+    ;
+    font-size: 1em;
+    border-radius: 20px;
+    padding: 0 10px;
+    width: 60%;
+    min-width: 60%;
+    max-width: 80%;
+    min-height: 20%;
+    max-height: 120px;
+
+}
+
+.formulario1 textarea:focus {
+
+    background-color: rgba(173, 216, 230, 0.397);
+
+
+}
+
+.cont {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+}
+
+.dietas {
+    flex-direction: row;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    background-color: rgb(200 189 189);
+    border-radius: 12px;
+    border-bottom: 2px solid #0407d9;
+
+}
+
+.cenas {
+    flex-direction: row;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    background-color: rgb(200 189 189);
+    border-radius: 12px;
+    border-bottom: 2px solid #0407d9;
+
+}
+
+.botonForm {
+    min-width: 130px;
+    height: 40px;
+    color: #fff;
+    padding: 5px 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+
+    outline: none;
+    border-radius: 5px;
+    z-index: 0;
+    background: #fff;
+
+    border: 2px solid #0407d9;
+    color: #0407d9;
+}
+
+.botonForm:hover {
+    color: #fff;
+}
+
+.botonForm:hover:after {
+    width: 100%;
+}
+
+.botonForm:after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    transition: all 0.3s ease;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 100%;
+    background: #0407d9;
+}
+
+input[type="checkbox"]:checked+label {
+    /* box-shadow: 0 0 0 3px hotpink; */
+    border: 3px solid hotpink;
+    background-color: hotpink;
+
+    border-radius: 12px;
+    color: #0407d9;
+    ;
+}

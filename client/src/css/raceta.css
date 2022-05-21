@@ -1,0 +1,61 @@
+.card {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+    background: linear-gradient(to bottom, #ffafcc, #ffc8dd);
+    text-decoration: none;
+    border: solid 5px;
+    border-color: #e20053;
+    border-radius: 25px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin: 2px;
+    margin-bottom: 20px;
+    max-width: 350px;
+    max-height: 470px;
+    text-align: center;
+    box-shadow: 1px 3px 2px 1px rgba(0, 0, 0, 0.26);
+    color: black;
+
+}
+
+.card:hover {
+    box-shadow: 1px 3px 2px 1px rgba(0, 0, 0, 0.726);
+
+}
+
+.card:visited {
+    text-decoration: none;
+    font-size: 50px;
+}
+
+.card a {
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    font-size: 30px;
+}
+
+.card img {
+
+    margin: 10px;
+    border: 8px solid;
+    border-radius: 12px;
+    border-color: #e20053;
+
+}
+
+.contDinetas {
+    text-transform: capitalize;
+
+}
+
+.contDinetas span {
+    color: azure;
+    background-color: #e20053;
+    border: solid 1px;
+    border-radius: 8px;
+    margin: 1px;
+    padding: .5px;
+}

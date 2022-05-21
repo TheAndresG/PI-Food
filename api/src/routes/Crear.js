@@ -11,7 +11,8 @@ router.post("/", async (req, res, next) => {
             spoonacularScore,
             healthScore,
             image,
-            instructions } = req.body;
+            instructions,
+            dishTypes } = req.body;
 
         const newReceta = await Recipe.create({
             title,
@@ -19,12 +20,17 @@ router.post("/", async (req, res, next) => {
             spoonacularScore,
             healthScore,
             image,
-            instructions
+            instructions,
+            dishTypes,
+            diets: []
         })
         if (dietsID !== null && dietsID !== []) {
             for (let i = 0; i < dietsID.length; i++) {
                 await newReceta.addDiet(dietsID[i])
             }
+        }
+        else {
+
         }
 
         // dietID.map((e) => newReceta.addDiet(e))

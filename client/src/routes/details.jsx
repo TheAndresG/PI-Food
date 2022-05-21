@@ -8,7 +8,6 @@ import Nav from '../components/Nav';
 
 const Details = () => {
     return (<Fragment>
-
         <Nav />
         <Detalles />
     </Fragment>

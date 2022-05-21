@@ -1,13 +1,11 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+
+import App from '../App';
 const Inicio = () => {
 
 
-    return (<div>
-
-        <h1> Pagina de Inicio </h1>
-        <Link to="/home"> Home</Link>
-    </div>
+    return (
+        <App />
     );
 }
 

@@ -33,7 +33,11 @@ module.exports = (sequelize) => {
     summary: {
       type: DataTypes.TEXT,
       allowNull: false
-    }
+    },
+    // dishTypes: {
+    //   type: DataTypes.ARRAY(DataTypes.DECIMAL),
+    //   allowNull: true
+    // }
 
   }, { timestamps: false });
 };

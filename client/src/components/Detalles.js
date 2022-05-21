@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { pedirUnaReceta } from '../store/acctions';
+import "../css/detalles.css"
 const Detalles = () => {
     const params = useParams()
     const dispatch = useDispatch()
@@ -9,29 +10,32 @@ const Detalles = () => {
     const [carga, setCarga] = useState(true)
 
     useEffect(() => {
+
         dispatch(pedirUnaReceta(params.id))
+
         setTimeout(() => { setCarga(false) }, 1000)
-    }, [dispatch, params])
+    }, [])
     return (
         <Fragment>
-            {carga ? <div>CARGANDO...</div> : <div>
-                <p>{receta.title}</p>
-                <img src={receta.image} alt="Imagen"></img>
-                <div>
-                    <label>Resumen:</label> <p>{receta.summary}</p>
+            {carga ? <div>CARGANDO...</div> : <div className='contenedorDetalles'>
+                <h1>{receta.title}</h1>
+                <img className='image' src={receta.image} alt="Imagen"></img>
+                <div className='bordes'>
+                    <h3>Resumen:</h3> <p dangerouslySetInnerHTML={{ __html: receta.summary }} />
                 </div>
-                <div>
-                    <label>healthScore:</label> <b>{receta.healthScore}</b>
+                <div className='contenedores'>
+                    <h3>healthScore:</h3> <b>{receta.healthScore}</b>
                     <p></p>
 
-                    <label>spoonacularScore:</label> <b>{receta.spoonacularScore}</b>
+                    <h3>spoonacularScore:</h3> <b>{receta.spoonacularScore}</b>
                     <p></p>
                 </div>
-                <label>Dietas: </label>{receta.diets.map((e) => <b key={e}>-{e.toUpperCase()}-</b>)}
+                <b>Dietas: </b>{receta.diets.length !== 0 ? receta.diets.map((e) => <p key={e}>-{e.toUpperCase()}-</p>) : <p>Sin Dietas</p>}
 
-                <div>
-                    <label>Instruciones:</label> <p>{receta.instructions}</p>
+                <div className='contenedores'>
+                    <h3>Instruciones:</h3> <p dangerouslySetInnerHTML={{ __html: receta.instructions }} />
                 </div>
+                {/* <h3>dishTypes: </h3>{receta.dishTypes.map((e) => <p key={e}>-{e.toUpperCase()}-</p>)} */}
             </div>
             }</Fragment>
     );

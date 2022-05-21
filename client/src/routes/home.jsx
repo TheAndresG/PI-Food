@@ -6,7 +6,6 @@ import Nav from '../components/Nav';
 
 const Home = () => {
     return (<Fragment>
-
         <Nav />
         <Homes />
     </Fragment>

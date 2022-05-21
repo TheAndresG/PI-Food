@@ -26,7 +26,6 @@ export default function reducer(state = initialState, action) {
             };
 
         case PEDIR_DIETAS:
-            console.log(action.payload.data);
             return {
                 ...state,
                 dietas: action.payload.data

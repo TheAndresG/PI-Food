@@ -6,7 +6,6 @@ import Nav from '../components/Nav';
 
 const Crear = () => {
     return (<Fragment>
-
         <Nav />
         <Formulario />
     </Fragment>
