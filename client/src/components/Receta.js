@@ -5,13 +5,13 @@ import { Link } from 'react-router-dom';
 const Receta = ({ title, spoonacularScore, id, image, healthScore, diets }) => {
     return (
         <Link className='card' id={id} key={id} to={`/receta/${id}`}>
-            <a href={"/receta/" + id} >{title}</a>
+            <b href={"/receta/" + id} >{title}</b>
             <img href={"/receta/" + id} src={image} alt="Foto!"></img>
-            <div><b>Puntaje Saludable: </b> {healthScore}</div>
+            <div><b>HealthScore: </b> {healthScore}</div>
 
-            <div><b>Puntaje: </b> {spoonacularScore}</div>
+            <div><b>Score: </b> {spoonacularScore}</div>
 
-            <div className='contDinetas'><b>Dietas:</b> {diets.map((e) => <span> {e} </span>)}</div>
+            <div className='contDinetas'><b>Diets:</b> {diets.map((e) => <span key={e}> {e} </span>)}</div>
 
         </Link>
 

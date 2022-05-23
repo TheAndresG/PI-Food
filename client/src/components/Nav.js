@@ -9,17 +9,17 @@ const Nav = () => {
 
             <div className='fondonav'>
                 <div className='xxxx'>
-                    <img src={logo} />
+                    <img src={logo} alt='' />
                     <b className="divTitulo">PI FOOD</b>
                 </div>
 
                 {/* <p> Bienvenido {nombre}</p> */}
                 <div className='divBotones'>
 
-                    <Link className='boton' to="/home">Inicio</Link>
+                    <Link className='boton' to="/home">Home</Link>
 
 
-                    <Link className='boton' to="/crear">Crear</Link>
+                    <Link className='boton' to="/crear">Create</Link>
                 </div>
             </div>
             <div className='borde'></div>

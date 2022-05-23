@@ -1,15 +1,23 @@
 .cards {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: stretch
+}
+
+.cards img {
+    min-width: 312px;
+    min-height: 231px;
+    max-width: 312px;
+    max-height: 231px;
+
 }
 
 .temporalcont {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 60px;
+
     text-shadow: 1px 6px 20px rgb(49, 2, 47);
 
 }
@@ -18,7 +26,7 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    margin: 60px;
+
     text-shadow: 1px 6px 20px rgb(49, 2, 47);
 
 }

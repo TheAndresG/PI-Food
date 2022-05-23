@@ -4,38 +4,58 @@ import { pedirDietas, pedirRecetas } from "../store/acctions"
 import Recetas from './Recetas';
 import Paginador from './Paginador';
 import Modal from './Modal';
-import { crearMensajeState } from '../store/acctions';
-
-
-// import FormularioFiltro from './FormularioFiltro';
+import { crearMensajeState, resetPedido } from '../store/acctions';
 import '../css/home.css';
 
 
 
 const Homes = () => {
+    // El scroll hecho funcion
+    function scrollWin() {
+        window.scrollTo(0, 0);
+    }
+
+
     const [carga, setCarga] = useState(true)
-    const [error, setError] = useState(false)
     const [filtro, setfiltro] = useState({
         tipo: "title",
         orden: "A-Z",
         dietafiltro: ""
     })
-
     const [busqueda, setBusqueda] = useState("")
+
+    //El paginado
+    const [paginaActual, setPaginaActual] = useState(1)
+    const [maxPagina] = useState(9)
+
+    const indexFinal = paginaActual * maxPagina;
+    const indexInicial = indexFinal - maxPagina;
+    const pagina = (numeroPagina) => {
+        setPaginaActual(numeroPagina)
+        scrollWin()
+    }
+    //
+
+
+
+
     const dispatch = useDispatch()
     const recetas = useSelector((state) => state.recetas)
     const dietas = useSelector((state) => state.dietas)
     const mensaje = useSelector((state) => state.mensaje)
-    let recetasAEnviar = recetas
-    const [paginaActual, setPaginaActual] = useState(1)
-    const [maxPagina] = useState(9)
-    let ordenaminamiento = () => {
-        if (filtro.dietafiltro === "") { recetasAEnviar = recetas }
-        else if (filtro.dietafiltro === "sin-dieta") { recetasAEnviar = recetas.filter(e => e.length === 0) }
+    const filtroName = useSelector((state) => state.filtroName)
 
-        else { recetasAEnviar = recetas.filter((e) => e.diets.includes(filtro.dietafiltro.toLocaleLowerCase())) }
-        console.log(recetas);
-        console.log(recetasAEnviar);
+
+
+    //La mitad del codigo es esta funcion para ordenar todo~
+    let recetasAEnviar = recetas
+    let base = recetas
+    let ordenaminamiento = () => {
+        if (filtroName.length !== 0) base = filtroName
+
+        if (filtro.dietafiltro === "") { recetasAEnviar = base }
+        else if (filtro.dietafiltro === "sin-dieta") { recetasAEnviar = recetas.filter(e => e.diets.length === 0) }
+        else { recetasAEnviar = base.filter((e) => e.diets.includes(filtro.dietafiltro.toLocaleLowerCase())) }
         if (filtro.orden === "A-Z") {
             if (filtro.tipo === "title") {
                 recetasAEnviar.sort((a, b) => {
@@ -60,10 +80,8 @@ const Homes = () => {
             }
         }
         if (filtro.orden === "Z-A") {
-
             if (filtro.tipo === "title") {
                 recetasAEnviar.sort((a, b) => {
-
                     if (a.title.toLowerCase() < b.title.toLowerCase())
                         return 1
                     if (a.title.toLowerCase() > b.title.toLowerCase())
@@ -86,47 +104,47 @@ const Homes = () => {
             }
         }
 
+
     }
-    function scrollWin() {
-        window.scrollTo(0, 0);
-    }
+
 
     useEffect(() => {
         setCarga(true)
         if (recetas.length === 0) {
-            dispatch(pedirRecetas())
+            dispatch(pedirRecetas());
         }
         if (dietas.length === 0) { dispatch(pedirDietas()) }
         setTimeout(() => { setCarga(false) }, 1800)
-    }, [])
-    // useEffect(() => {
-    //     if (carga === false && recetasAEnviar.length === 0) { dispatch(crearMensajeState("No existen recetas con esos parametros!")) }
-    //     setCarga(true)
-    // }, [ordenaminamiento])
 
+        return (
+            dispatch(resetPedido())
+        )
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+    //capturar el valor de la busqueda
     const handleInputChange = function (e) {
         setBusqueda(e.target.value)
     }
 
+
+    //Ejecutar la busqueda
     const onSubmitForm = function (e) {
         e.preventDefault();
         setPaginaActual(1)
         setCarga(true)
-        // if (busqueda == "") { return pedirRecetas() }
+        if (busqueda === "") {
+            setCarga(false);
+            return dispatch(resetPedido())
+        }
         dispatch(pedirRecetas(busqueda))
         setTimeout(() => {
             setCarga(false);
-            if (carga === false && recetasAEnviar.length === 0) {
-                dispatch(crearMensajeState("No existen recetas con ese nombre!"))
-            }
-        }, 1400)
 
+        }, 1500)
     }
-    // const pedirOrden = function (e) {
-    //     e.preventDefault();
-    //     setOrdenado(e.target.value)
 
-    // }
+
+    //Actualizar el state de filtros
     const obtenerInformacion = (e) => {
         setfiltro({
             ...filtro,
@@ -138,48 +156,46 @@ const Homes = () => {
         setPaginaActual(1)
         setTimeout(() => {
             setCarga(false);
-            if (carga === false && recetasAEnviar.length === 0) {
-                dispatch(crearMensajeState("No existen recetas con esos parametros!"))
-            }
-        }, 800)
+
+        }, 1400)
 
     };
 
+    //Cartel si los Parametros no dan resultado
+    // const [ok, setOk] = useState(false)
+    // useEffect(() => {
+    //     if (carga === false && recetasAEnviar.length === 0) {
+    //         dispatch(crearMensajeState("There are no recipes with those parameters!"))
+    //     }
+
+    // }, [obtenerInformacion])
+
+
+
+
+
     ordenaminamiento()
-
-
-    console.log(dietas);
-    const indexFinal = paginaActual * maxPagina;
-    const indexInicial = indexFinal - maxPagina;
-    const pagina = (numeroPagina) => {
-        setPaginaActual(numeroPagina)
-        scrollWin()
-    }
-
-
     return (
         <Fragment>
             {/* <FormularioFiltro busqueda={busqueda} dietas={dietas} filtro={filtro} filtroreceta={filtroreceta} obtenerInformacion={obtenerInformacion} onSubmitForm={onSubmitForm} filtrarDietasChange={filtrarDietasChange} handleInputChange={handleInputChange} /> */}
             <div className='fondo'>
                 <div className='form'>
                     <form onSubmit={onSubmitForm}>
-                        <label>Elegir dietas:</label>
+                        <label>Select Diets</label>
                         <select name='dietafiltro'
                             className='search'
                             value={filtro.dietafiltro}
                             onChange={obtenerInformacion}>
-                            <option className='options' value="">Todas</option>
-                            <option className='options' value="sin-dieta">sin dietas</option>
-
+                            <option className='options' value="">All</option>
+                            <option className='options' value="sin-dieta">Whitout Diets</option>
                             {dietas.map((e) => <option value={e.name}>{e.name}</option>)}
-
                         </select>
                     </form>
                     <form onSubmit={onSubmitForm} className="form-wrapper">
                         <input type='search' className='search ' placeholder="Search for..." name="searchTerm" value={busqueda} onChange={handleInputChange} pattern=".*\S.*" /> <input type="submit" value="GO" className="boton" />
                     </form>
                     <form>
-                        <label>Ordenar por:</label>
+                        <label>Order By:</label>
                         <select name='tipo'
                             className='search'
                             value={filtro.tipo}
@@ -187,7 +203,6 @@ const Homes = () => {
                             <option value="title">name</option>
                             <option value="spoonacularScore">score</option>
                             <option value="healthScore">healthScore</option>
-
                         </select>
                         <select name='orden'
                             className='search'

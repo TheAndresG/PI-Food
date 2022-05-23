@@ -14,13 +14,13 @@ const Paginador = ({ maxPagina, totalRecetas, pagina, paginaActual }) => {
 
     return (
         <div>
-            {paginaActual !== 1 ? <div className='lista' onClick={() => pagina(paginaActual - 1)}> Back</div> : null}
             <ul className='pagination'>
+                {paginaActual !== 1 ? <div className='lista' onClick={() => pagina(paginaActual - 1)}> Back</div> : null}
                 {numeroPaginas.map(numero => (
                     <li className='lista' key={numero}><div onClick={() => pagina(numero)} href=''>{numero}</div></li>
                 ))}
+                {paginaActual !== maxPagina ? <div className='lista' onClick={() => pagina(paginaActual + 1)}>Next</div> : null}
             </ul>
-            {paginaActual !== maxPagina ? <div className='lista' onClick={() => pagina(paginaActual + 1)}>Next</div> : null}
         </div >
 
 

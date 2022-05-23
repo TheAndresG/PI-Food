@@ -48,14 +48,19 @@
 
 .contDinetas {
     text-transform: capitalize;
-
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-evenly;
+    align-items: baseline;
 }
 
 .contDinetas span {
-    color: azure;
-    background-color: #e20053;
-    border: solid 1px;
+    color: rgb(0, 0, 0);
+    padding: 1.4px;
+    background: linear-gradient(to bottom, #fa71a3, #bd074d);
+    border: black solid 1px;
     border-radius: 8px;
-    margin: 1px;
-    padding: .5px;
+
 }

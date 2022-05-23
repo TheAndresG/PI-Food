@@ -5,6 +5,8 @@
     flex-wrap: wrap;
     align-items: center;
     align-content: center;
+    margin: 0;
+    padding-bottom: 5px;
 }
 
 .pagination div {

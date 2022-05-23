@@ -8,7 +8,7 @@ body {
 
 }
 
-.fondo {
+.fondoForm {
     background: linear-gradient(to bottom, #59abf3, #faeeeee5);
     height: 60rem;
 }
@@ -61,6 +61,8 @@ body {
     outline: none;
     -webkit-transition: .2s;
     transition: opacity .2s;
+    box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.247);
+
 }
 
 .formulario1 input::-webkit-slider-thumb {
@@ -71,6 +73,11 @@ body {
     border-radius: 50%;
     background: linear-gradient(to bottom, #e90bc4, #6d0870e5);
     cursor: pointer;
+    transition: .5s;
+}
+
+.formulario1 input::-webkit-slider-thumb:hover {
+    box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.767);
 }
 
 .formulario1 input::-moz-range-thumb {
@@ -185,12 +192,37 @@ body {
     background: #0407d9;
 }
 
-input[type="checkbox"]:checked+label {
-    /* box-shadow: 0 0 0 3px hotpink; */
-    border: 3px solid hotpink;
-    background-color: hotpink;
+.checkbox {
+    display: inline;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding: 8px;
+    margin: 10px;
+    background: linear-gradient(to bottom, #e90b0b, #700808e5);
+    box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.767);
+    transition: all .5s;
+    border-radius: 30px;
+}
 
-    border-radius: 12px;
-    color: #0407d9;
-    ;
+.checkbox:hover {
+
+    box-shadow: 0px 0px 5px 2px rgba(0, 192, 0, 0.986);
+}
+
+.checkbox:checked {
+    background: linear-gradient(to bottom, #0be916, #087011e5);
+    box-shadow: 0px 0px 5px 2px rgb(0, 0, 0);
+    transition: .5s;
+
+}
+
+.checkbox:checked:hover {
+
+    box-shadow: 0px 0px 5px 2px rgba(231, 7, 7, 0.986);
+
+}
+
+input[type="checkbox"]:checked+label {
+    color: gold;
 }

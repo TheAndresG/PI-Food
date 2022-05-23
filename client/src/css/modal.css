@@ -1,5 +1,5 @@
 .modal-contenido {
-    background-color: rgb(227, 233, 233);
+    background: linear-gradient(to bottom, #bebebe, #ffffffe5);
     width: 700px;
     height: 218px;
     display: flex;
@@ -10,6 +10,8 @@
     align-items: center;
     justify-content: space-around;
     border-radius: 15px;
+    box-shadow: 1px 0px 10px 1px rgba(0, 0, 0, 0.692);
+
 }
 
 .modal {
@@ -20,4 +22,5 @@
     bottom: 0;
     left: 0;
     z-index: 300;
+
 }

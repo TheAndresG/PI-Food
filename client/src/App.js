@@ -12,7 +12,7 @@ function App() {
 
     <div className="App">
       <div className="Contenedor">
-        <h1 className='titulo'> Pagina de Inicio </h1>
+        <h1 className='titulo'> PI FOOD </h1>
         <Link className="botons" to="/home"> Home</Link>
         {/* <form>
             <input type="text" placeholder='Tu Nombre' />

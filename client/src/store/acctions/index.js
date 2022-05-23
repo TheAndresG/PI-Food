@@ -1,5 +1,6 @@
 import axios from "axios";
 export const PEDIDO_RECETAS = "PEDIDO_RECETAS";
+export const PEDIDO_RECETAS_FILTRADAS = "PEDIDO_RECETAS_FILTRADAS";
 export const PEDIR_UNA_RECETA = "PEDIR_UNA_RECETA";
 export const CREAR_RECETA = "CREAR_RECETA"
 export const PEDIR_DIETAS = "PEDIR_DIETAS"
@@ -8,15 +9,19 @@ export const CREAR_MENSAJE_STATE = "CREAR_MENSAJE_STATE"
 export function pedirRecetas(name) {
     return function (dispatch) {
         if (name && name !== "") {
-            console.log("entre");
             axios.get(`http://localhost:3001/recipes?name=${name}`)
                 .then((recetas) => {
                     dispatch({
-                        type: PEDIDO_RECETAS,
+                        type: PEDIDO_RECETAS_FILTRADAS,
                         payload: recetas
                     })
                 })
-                .catch((error) => { console.log(error); })
+                .catch(() => {
+                    dispatch({
+                        type: CREAR_MENSAJE_STATE,
+                        payload: "Error"
+                    })
+                })
             return
         }
 
@@ -28,6 +33,13 @@ export function pedirRecetas(name) {
                 })
             })
             .catch((error) => { console.log(error); })
+    }
+}
+export function resetPedido() {
+    return function (dispatch) {
+        dispatch({
+            type: "RESET"
+        })
     }
 }
 export function pedirUnaReceta(id) {
@@ -51,7 +63,7 @@ export function crearReceta(input) {
             .then(() => {
                 dispatch({
                     type: CREAR_RECETA,
-                    payload: "Receta Creada"
+                    payload: "Recipe created successfully!"
                 })
             })
             .catch((error) => { console.log(error); })

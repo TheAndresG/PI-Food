@@ -12,7 +12,7 @@ router.get("", (req, res, next) => {
     let pedidoBD
 
     try {
-        pedidoAPI = axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=100`)
+        pedidoAPI = axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=12`)
         if (name) {
             pedidoBD = Recipe.findAll({ where: { title: { [Op.iLike]: "%" + name + "%" } }, includes: { model: Diet, attributes: ["name"], through: { attributes: [] } } }).then((recipe) => { return recipe })
         }

@@ -12,7 +12,7 @@ import Details from './routes/details';
 import Home from './routes/home';
 
 
-
+let parametro = "404 Invalid Path"
 ReactDOM.render(
   <BrowserRouter>
     <Provider store={store}>
